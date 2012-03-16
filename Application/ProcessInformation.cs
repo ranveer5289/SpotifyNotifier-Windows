@@ -33,5 +33,10 @@ namespace ProcessInfo
                         return processId;
                 }
 
+                public  bool isAvailable()
+                {
+                        return (getSpotify() != IntPtr.Zero);
+                }
+
         }
 }

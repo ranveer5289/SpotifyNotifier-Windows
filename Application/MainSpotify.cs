@@ -76,24 +76,22 @@ class NameChangeTracker
         {
 
                 ProcessInformation PSI = new ProcessInformation();
-                IntPtr hWnd = PSI.getSpotify();
-                int processid = PSI.getProcessId(hWnd);
+                if(PSI.isAvailable())
+                {         
+                        IntPtr hWnd = PSI.getSpotify();
+                        int processid = PSI.getProcessId(hWnd);
 
-                IntPtr hWinEventHook = SetWinEventHook(0x800c, 0x800c, IntPtr.Zero, procDelegate, Convert.ToUInt32(processid), 0, 0);
-                //MessageBox.Show("Tracking name changes on HWNDs, close message box to exit.");
+                        IntPtr hWinEventHook = SetWinEventHook(0x800c, 0x800c, IntPtr.Zero, procDelegate, Convert.ToUInt32(processid), 0, 0);
+                        //MessageBox.Show("Tracking name changes on HWNDs, close message box to exit.");
 
-                Message msg = new Message();
+                        Message msg = new Message();
 
-                while(GetMessage(ref msg,hWnd,0,0))
+                        while(GetMessage(ref msg,hWnd,0,0))
 
-                        UnhookWinEvent(hWinEventHook);
+                                UnhookWinEvent(hWinEventHook);
+                }
+
+                else
+                        MessageBox.Show("check spotify running or not");
         }
-
-
 }
-
-
-
-
-
-
