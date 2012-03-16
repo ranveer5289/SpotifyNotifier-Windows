@@ -51,8 +51,10 @@ namespace Metadata
                         string currentTrack = GetCurrentTrack();
 
                         if (!string.IsNullOrEmpty(currentTrack))
+                        {
 
                                 strArray = currentTrack.Split('\u2013');
+                        }
                         else
                                 return null;
 
