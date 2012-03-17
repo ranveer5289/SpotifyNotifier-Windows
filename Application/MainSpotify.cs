@@ -57,12 +57,13 @@ class NameChangeTracker
         private static void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint 
                         dwEventThread, uint dwmsEventTime)
         {
-                if ((idObject == 0) || (idChild == 0))  
+                if ((idObject == 0) && (idChild == 0))
                 {
                         nameChanger();
 
                         if((track != null) || (artist != null))
                         {
+
                                 notify.sendNotification(track,artist);
                                 Console.WriteLine(track);
                                 Console.WriteLine(artist);
@@ -80,6 +81,7 @@ class NameChangeTracker
                 {         
                         IntPtr hWnd = PSI.getSpotify();
                         int processid = PSI.getProcessId(hWnd);
+                        //nameChanger();
 
                         IntPtr hWinEventHook = SetWinEventHook(0x800c, 0x800c, IntPtr.Zero, procDelegate, Convert.ToUInt32(processid), 0, 0);
                         //MessageBox.Show("Tracking name changes on HWNDs, close message box to exit.");
