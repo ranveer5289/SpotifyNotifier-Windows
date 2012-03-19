@@ -20,9 +20,11 @@ class NameChangeTracker
         private const uint EVENT_OBJECT_NAMECHANGE = 0x800c;
         private const uint WINEVENT_OUTOFCONTEXT = 0;
 
-        public static string track;
-        public static string artist;
-        public static Notify notify;
+        public static string track = null;
+        public static string artist = null;
+        public static Notify notify = null;
+        public static TrackMetadata TMD = null;
+
 
         //Dll Imports
 
@@ -41,7 +43,7 @@ class NameChangeTracker
 
         public static void nameChanger()
         {
-                TrackMetadata TMD = new TrackMetadata();
+                TMD = new TrackMetadata();
                 track = TMD.getTrack();
                 artist  = TMD.getArtist();
                 notify = new Notify();
@@ -57,13 +59,13 @@ class NameChangeTracker
         private static void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint 
                         dwEventThread, uint dwmsEventTime)
         {
+
                 if ((idObject == 0) && (idChild == 0))
                 {
                         nameChanger();
 
-                        if((track != null) || (artist != null))
+                        if(track !=null || artist !=null)
                         {
-
                                 notify.sendNotification(track,artist);
                                 Console.WriteLine(track);
                                 Console.WriteLine(artist);
@@ -72,16 +74,15 @@ class NameChangeTracker
         }
 
 
-
         public static void Main()
         {
-
                 ProcessInformation PSI = new ProcessInformation();
+
+
                 if(PSI.isAvailable())
                 {         
                         IntPtr hWnd = PSI.getSpotify();
                         int processid = PSI.getProcessId(hWnd);
-                        //nameChanger();
 
                         IntPtr hWinEventHook = SetWinEventHook(0x800c, 0x800c, IntPtr.Zero, procDelegate, Convert.ToUInt32(processid), 0, 0);
                         //MessageBox.Show("Tracking name changes on HWNDs, close message box to exit.");
@@ -89,6 +90,7 @@ class NameChangeTracker
                         Message msg = new Message();
 
                         while(GetMessage(ref msg,hWnd,0,0))
+
 
                                 UnhookWinEvent(hWinEventHook);
                 }
