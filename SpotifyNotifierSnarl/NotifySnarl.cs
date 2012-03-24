@@ -1,7 +1,3 @@
-/* Author: Ranveer Raghuwanshi
- * Email: ranveer.raghu@gmail.com
- * Stackoverflow: http://stackoverflow.com/users/776084/ranrag */
-
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -28,7 +24,7 @@ namespace Notification
 
                         //Argument to snarl
                         string ApplicationArguments_Register = "\"register?app-sig=app/Spotify&title=SpotifyNotifierSnarl\"";
-                        string ApplicationArguments = string.Format("notify?app-sig=app/Spotify&title=Song:{0}&text=Artist:{1}",track,artist);
+                        string ApplicationArguments = string.Format("notify?app-sig=app/Spotify&title=Song: {0}&text=Artist: {1}&icon=C:\\spotify.jpg",track,artist);
 
                         //Creating Process
                         Process ProcessObj = new Process();
