@@ -1,3 +1,7 @@
+/* Author: Ranveer Raghuwanshi
+ * Email: ranveer.raghu@gmail.com
+ * Stackoverflow: http://stackoverflow.com/users/776084/ranrag */
+
 using System;
 using System.Diagnostics;
 using System.Text;
