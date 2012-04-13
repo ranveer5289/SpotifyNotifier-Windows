@@ -10,7 +10,6 @@ using ProcessInfo;
 using Metadata;
 using Notification;
 
-
 class NameChangeTracker
 
 {
@@ -21,12 +20,13 @@ class NameChangeTracker
 
         public static string track = null;
         public static string artist = null;
+        public static string oldTrack = null;
+        public static string oldArtist = null;
         public static Notify notify = null;
         public static TrackMetadata TMD = null;
         public static ProcessInformation PSI = null;
         public static IntPtr hwnd_spotify = IntPtr.Zero;
         public static int processid = 0;
-
         //Dll Imports
 
         [DllImport("user32")]
@@ -38,6 +38,12 @@ class NameChangeTracker
 
         [DllImport("user32.dll")]
                 private static extern bool UnhookWinEvent(IntPtr hWinEventHook);
+
+        [DllImport("user32.dll")]
+                public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.Dll")]
+                static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         // Methods
 
@@ -59,7 +65,6 @@ class NameChangeTracker
         {
                 track = TMD.getTrack();
                 artist  = TMD.getArtist();
-
         }
 
         //get process information specifically when spotify gets restarted.
@@ -77,6 +82,7 @@ class NameChangeTracker
                 TMD = new TrackMetadata();
                 notify = new Notify();
 
+                notify.register();
         }
 
         // Need to ensure delegate is not collected while we're using it,
@@ -104,11 +110,14 @@ class NameChangeTracker
                         if(hwnd.ToInt32() == hwnd_spotify.ToInt32())
                         {
 
-                                if(track !=null || artist !=null)
+                                if((!String.IsNullOrWhiteSpace(track) && track != oldTrack) || (!String.IsNullOrWhiteSpace(artist) && artist != oldArtist))
                                 {
                                         notify.sendNotification(track,artist);
                                         Console.WriteLine(track);
                                         Console.WriteLine(artist);
+
+                                        oldTrack = track;
+                                        oldArtist = artist;
                                 }
                         }
                 }
@@ -140,8 +149,25 @@ class NameChangeTracker
         }
 
 
-        public static void Main()
+        public static void Main(string[] args)
         {
+                Console.Title = "SpotifyNotifier";
+
+                //Thanks to Matthew Javellana @ mmjavellana@gmail.com
+                for( int i = 0; i < args.Length; i ++)
+                {                
+                    if(args[i].StartsWith("-w"))
+                    {
+                        IntPtr hWnd = FindWindow(null, Console.Title);
+
+                        if(hWnd != IntPtr.Zero)
+                        {
+                            ShowWindow(hWnd, 0);
+                        }
+                    }
+                }
+
+
                 ProcessInformation PSI = new ProcessInformation();
 
                 //Checking spotify available.
