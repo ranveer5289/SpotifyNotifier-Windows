@@ -1,0 +1,16 @@
+These are a couple of improvements in this version:
+
+1) Now no need to register the application with growl manually. Check
+"notifygrowl.cs" for relevant code.
+
+2) Now displays album-cover/album-art of the current playing track in the
+notification.
+
+3) Hide the window after running the ".exe" application. Check
+"CustomNoWindow.bat" for relevance.
+
+4) Now it doesn't dislpay the track notification when you play again after the
+spotify is paused.
+
+
+Thanks to Matthew Javellana @ mmjavellana@gmail.com for the above improvements.
