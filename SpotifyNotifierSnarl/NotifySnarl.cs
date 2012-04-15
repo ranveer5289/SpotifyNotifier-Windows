@@ -27,7 +27,7 @@ namespace Notification
                         string ApplicationName = "heysnarl.exe";
 
                         //Argument to snarl
-                        string ApplicationArguments_Register = "\"register?app-sig=app/Spotify&title=SpotifyNotifierSnarl\"";
+                        string ApplicationArguments_Register = "register?app-sig=app/Spotify&title=SpotifyNotifierSnarl&icon=C:\\spotify.jpg";
                         string ApplicationArguments = string.Format("notify?app-sig=app/Spotify&title=Song: {0}&text=Artist: {1}&icon=C:\\spotify.jpg",track,artist);
 
                         //Creating Process
