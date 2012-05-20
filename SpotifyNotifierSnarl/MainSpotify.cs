@@ -171,7 +171,7 @@ class NameChangeTracker
 
                 else
                         //Executed if spotify not running.
-                        MessageBox.Show("check spotify running or not");
+                    MessageBox.Show("check spotify running or not","Spotify Not Found",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
         }
 }
 
