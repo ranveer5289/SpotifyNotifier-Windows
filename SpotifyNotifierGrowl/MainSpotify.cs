@@ -27,8 +27,8 @@ class NameChangeTracker
         public static ProcessInformation PSI = null;
         public static IntPtr hwnd_spotify = IntPtr.Zero;
         public static int processid = 0;
-        //Dll Imports
 
+        //Dll Imports
         [DllImport("user32")]
                 internal static extern  bool GetMessage(ref Message lpMsg, IntPtr handle, uint mMsgFilterInMain, uint mMsgFilterMax);
 
@@ -197,7 +197,7 @@ class NameChangeTracker
 
                 else
                         //Executed if spotify not running.
-                        MessageBox.Show("check spotify running or not");
+                    MessageBox.Show("check spotify running or not","Spotify Not Found",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
         }
 }
 
