@@ -9,7 +9,7 @@ Special Thanks to BrendanMcK(http://stackoverflow.com/users/660175/brendanmck)
 for his contribution.
 
 
-These are a couple of improvements in the new version of spotifynotifiergrowl:
+<strong>These are a couple of improvements in the new version of spotifynotifiergrowl:</strong>
 
 1) Now no need to register the application with growl manually. Check
 "notifygrowl.cs" for relevant code.
