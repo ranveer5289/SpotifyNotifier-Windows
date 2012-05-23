@@ -1,4 +1,4 @@
-SpotifyNotifier is an application which notifies current playing song in Spotify
+<b>SpotifyNotifier</b> is an application which notifies current playing song in Spotify
 on a Windows system.
 
 Currently supports notification applications like Growl, Snarl, Notifu.
