@@ -3,84 +3,116 @@
  * Stackoverflow: http://stackoverflow.com/users/776084/ranrag */
 
 using System;
+using System.IO;
+using System.Windows.Forms;
 using System.Diagnostics;
 using System.Text;
 using Metadata;
 using System.Xml.XPath;
 using System.Xml;
+using Growl.Connector;
 
-namespace Notification
+namespace SpotifyNotification
 {
-        class Notify
+    class Notify
+    {
+
+
+        private string notification_icon_path = null;
+        private GrowlConnector growl = null;
+
+        //Create growl object to register application and send notification.
+        public void createGrowlObject()
         {
-               //private string ApplicationName = "C:\\Program Files (x86)\\Growl for Windows\\growlnotify.exe"; //application name
-                private string ApplicationName = "C:\\Program Files\\Growl for Windows\\growlnotify.exe"; //application name
+            //Growl object 
+            growl = new GrowlConnector();
 
-                public void sendNotification(string track, string artist)
-                {
-                        
-                        string CoverUrl = getAlbumArt(track, artist);
-                        string ApplicationArguments = string.Format("/t:\"Song: {0}\" {2} /n:\"Spotify\" /a:\"Spotify\" \"Artist: {1}\"",track,artist, !String.IsNullOrEmpty(CoverUrl) ? " /i:" + CoverUrl : ""); //arguments for growlnotify
+            //Check growl running or not.
+            if (GrowlConnector.IsGrowlRunningLocally())
+            {
 
-                        //Creating process object 
-                        Process ProcessObj = new Process();
-                        ProcessObj.StartInfo.FileName = ApplicationName;
-                        ProcessObj.StartInfo.Arguments = ApplicationArguments;
-
-                        ProcessObj.StartInfo.UseShellExecute = false;
-                        ProcessObj.StartInfo.CreateNoWindow = true;
+                //Application name(Spotify) as seen in growl GUI.
+                Growl.Connector.Application application = new Growl.Connector.Application("Spotify");
 
 
-                        ProcessObj.Start();
+                //Application Icon.
+                application.Icon = getCurrentWorkingDirectory();
 
-                }
+                NotificationType Spotify_notification_type = new NotificationType("SPOTIFYNOTIFICATION", "Display Notification");
+                //Register "Spotify" application
+                growl.Register(application, new NotificationType[] { Spotify_notification_type });
 
-                //Thanks to Matthew Javellana @ mmjavellana@gmail.com
-                public void register()
-                {
-                        string ApplicationArguments = string.Format("/r:Spotify /a:Spotify /ai:\"{0}\\logo.png\" \"Spotify has registered with Growl\"", System.IO.Directory.GetCurrentDirectory()); //arguments for growlnotify
+                //return growl object to show notification.
+                // return growl;
 
-
-                        //Creating process object 
-                        Process ProcessObj = new Process();
-                        ProcessObj.StartInfo.FileName = ApplicationName;
-                        ProcessObj.StartInfo.Arguments = ApplicationArguments;
-
-                        ProcessObj.StartInfo.UseShellExecute = false;
-                        ProcessObj.StartInfo.CreateNoWindow = true;
+            }
+            else
+                MessageBox.Show("check Growl running or not","Growl Not Found",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 
 
-                        ProcessObj.Start();
-                }
-
-                //Thanks to Matthew Javellana @ mmjavellana@gmail.com
-                public string getAlbumArt(string track, string artist)
-                {
-                        string coverUrl = null;
-
-                        try
-                        {
-                            string apiKey = "b25b959554ed76058ac220b7b2e0a026";
-                            string path = "http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=" + apiKey + "&artist=" + artist + "&track=" + track;
-                            Console.WriteLine(path);
-                            XPathDocument doc = new XPathDocument(path);
-
-                            XPathNavigator navigator = doc.CreateNavigator();
-                            XPathNodeIterator nodeImage = navigator.Select("/lfm/track/album/image");
-
-                            while (nodeImage.MoveNext())
-                            {
-                                XPathNavigator node = nodeImage.Current;
-                                coverUrl = node.InnerXml;
-                            }                        
-                        }
-                        catch (Exception)
-                        {                       
-                        }
-
-
-                        return coverUrl;
-               }
         }
+
+
+        public void sendNotification(string track, string artist)
+        {
+
+            string CoverUrl = getAlbumArt(track, artist);
+
+            //Notification specific icon.
+            Growl.CoreLibrary.Resource Icon = !String.IsNullOrEmpty(CoverUrl) ? CoverUrl : getCurrentWorkingDirectory();
+            Priority priority = 0;
+
+            //If no artist metadata is found set Artist=UNKNOWN
+            if(String.IsNullOrEmpty(artist))
+                artist = "UNKNOWN";
+
+            Notification notification = new Notification("Spotify", "SPOTIFYNOTIFICATION", null, artist, track,Icon,false,priority,null);
+
+
+            //Notify growl.
+            growl.Notify(notification);
+
+        }
+
+
+        private string getCurrentWorkingDirectory()
+        {
+            //Get current working directory.
+            String path = Directory.GetCurrentDirectory();
+            notification_icon_path = String.Concat(path , @"\logo.png");
+            return notification_icon_path;
+
+        }
+
+
+        //Thanks to Matthew Javellana @ mmjavellana@gmail.com
+        private string getAlbumArt(string track, string artist)
+        {
+            string coverUrl = null;
+
+            try
+            {
+                string apiKey = "b25b959554ed76058ac220b7b2e0a026";
+                string path = "http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=" + apiKey + "&artist=" + artist + "&track=" + track;
+                Console.WriteLine(path);
+                XPathDocument doc = new XPathDocument(path);
+
+                XPathNavigator navigator = doc.CreateNavigator();
+                XPathNodeIterator nodeImage = navigator.Select("/lfm/track/album/image");
+
+                while (nodeImage.MoveNext())
+                {
+                    XPathNavigator node = nodeImage.Current;
+                    coverUrl = node.InnerXml;
+                }                        
+            }
+            catch (Exception)
+            {                       
+            }
+
+
+            return coverUrl;
+        }
+    }
 }
 
