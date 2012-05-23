@@ -27,7 +27,7 @@ spotify is paused.
 Thanks to Matthew Javellana @ mmjavellana@gmail.com for the above improvements.
 
 
-Improvements in version 1.2 for spotifynotifiergrowl:
+<strong>Improvements in version 1.2 for spotifynotifiergrowl:</strong>
 
 1) Now uses <b>Growl C# API</b> to register application and to show notifications so dependency on <b>growlnotify.exe</b> removed
 
