@@ -25,7 +25,22 @@ spotify is paused.
 
 
 Thanks to Matthew Javellana @ mmjavellana@gmail.com for the above improvements.
-        
+
+
+Improvements in version 1.2 for spotifynotifiergrowl:
+
+1) Now uses <b>Growl C# API</b> to register application and to show notifications so dependency on <b>growlnotify.exe</b> removed
+
+2) As some of the methods were not supported for .NET < 4.0 so now the zip includes  
+
+   2.1) SpotifyNotifyGrowl_NET2.0.exe for those who are using .NET version 2.0 (I suppose nobody is).
+
+   2.2) SpotifyNotifyGrowl_NET3.5.exe for those who are using .NET version 3.5.
+
+   2.3) SpotifyNotifyGrowl.exe for those who are using .NET version 4.0.
+
+3) It also includes a compile_NET4.0.bat file to compile the project after making some changes to it.
+
 
 Author: Ranveer Raghuwanshi
 Email: ranveer.raghu@gmail.com
