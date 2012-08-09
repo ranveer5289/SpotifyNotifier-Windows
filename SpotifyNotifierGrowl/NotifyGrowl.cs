@@ -92,7 +92,7 @@ namespace SpotifyNotification
 
             try
             {
-                string apiKey = "b25b959554ed76058ac220b7b2e0a026";
+                string apiKey = "2a2d43dd092fd20165cda5deeb7263e5";
                 string path = "http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=" + apiKey + "&artist=" + artist + "&track=" + track;
                 Console.WriteLine(path);
                 XPathDocument doc = new XPathDocument(path);
