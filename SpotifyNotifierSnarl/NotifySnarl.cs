@@ -28,7 +28,9 @@ namespace Notification
         {
 
 
+            //Check Snarl running or not.
             if (snarl_object.isSnarlRunningLocally())
+                //Register app with Snarl.
                 snarl_object.register(appName);
 
             else
@@ -41,10 +43,12 @@ namespace Notification
 
             string icon = !String.IsNullOrEmpty(CoverUrl) ? CoverUrl: getCurrentWorkingDirectory();
 
+            //Send notification to Snarl.
             snarl_object.notify(appName, null, track, artist, timeout, icon);
 
         }
 
+        //Get Album Art from Last.fm
         private string getAlbumArt(string track, string artist)
         {
             string coverUrl = null;
@@ -82,6 +86,7 @@ namespace Notification
             return stringToEncode;
         }
 
+        //Get path of default icon(logo.png).
         private string getCurrentWorkingDirectory()
         {
             //Get current working directory.
