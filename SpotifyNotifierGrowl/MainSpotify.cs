@@ -26,7 +26,6 @@ class NameChangeTracker
     public static Notify notify = null;
     public static TrackMetadata TMD = null;
     public static ProcessInformation PSI = null;
-    //public static GrowlConnector growl = null;
     public static IntPtr hwnd_spotify = IntPtr.Zero;
     public static int processid = 0;
 
@@ -126,8 +125,8 @@ class NameChangeTracker
             {
 
                 //for .NET Version < 4.0 beacuse no inbuilt IsNullOrWhiteSpace method.
-                //if((!NameChangeTracker.IsNullOrWhiteSpace(track) && track != oldTrack) || (!NameChangeTracker.IsNullOrWhiteSpace(artist) && artist != oldArtist))
-                if((!String.IsNullOrWhiteSpace(track) && track != oldTrack) || (!String.IsNullOrWhiteSpace(artist) && artist != oldArtist))
+                if((!NameChangeTracker.IsNullOrWhiteSpace(track) && track != oldTrack) || (!NameChangeTracker.IsNullOrWhiteSpace(artist) && artist != oldArtist))
+                //if((!String.IsNullOrWhiteSpace(track) && track != oldTrack) || (!String.IsNullOrWhiteSpace(artist) && artist != oldArtist))
 
                 {
                     notify.sendNotification(track,artist);
