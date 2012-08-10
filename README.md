@@ -39,7 +39,16 @@ Thanks to Matthew Javellana @ mmjavellana@gmail.com for the above improvements.
 
    2.3) SpotifyNotifyGrowl.exe for those who are using .NET version 4.0.
 
-3) It also includes a compile_NET4.0.bat file to compile the project after making some changes to it.
+3) It also includes a compile_NET3.5.bat file to compile the project after making some changes to it.
+
+<strong>Improvements in version 1.1 for spotifynotifiersnarl:</strong>
+
+1) Now displays album-cover/album-art of the current playing track in the
+notification.
+
+2) Now uses <b>Snarl C# API</b> to register application and to show notifications so dependency on <b>heysnarl.exe</b> removed.
+
+3) It also includes a compile_NET3.5.bat file to compile the project after making some changes to it.
 
 
 Author: Ranveer Raghuwanshi
